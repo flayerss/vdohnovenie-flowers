@@ -1,0 +1,157 @@
+body, html {
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+/* Шапка */
+header {
+    background-color: #ffffff;
+    padding: 20px 0;
+}
+
+.header_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    font-size: 20px;
+}
+
+.logo img {
+    height: 150px; /* Установите высоту логотипа */
+}
+
+#menu {
+    display: flex;
+}
+
+#menuLink {
+    color: #000000;
+    text-decoration: none;
+    margin-left: 20px;
+    transition: color 0.3s;
+}
+
+#menuLink:hover {
+    color: #777;
+}
+.stroka
+{
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 10px auto;
+}
+.marquee{
+    font-size: 20px; /* Размер шрифта */
+            color: #000000; /* Цвет текста */
+}
+.main {
+    max-width: 1200px;
+    margin: 5px auto;
+    padding: 20px;
+}
+.main_menu {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+
+#menus {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+#menus:hover {
+    color: #777;
+}
+
+.container {
+    display: flex; /* Flexbox для центрирования */
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
+    height: 100%; /* Занять всю высоту контейнера */
+    position: relative; /* Для позиционирования ссылки "Назад" */
+    margin: 20px auto;
+}
+
+.back-link {
+    position: absolute; /* Абсолютное позиционирование */
+    top: 10px; /* Отступ сверху */
+    left: 10px; /* Отступ слева */
+    text-decoration: none; /* Убираем подчеркивание */
+    color: #007bff; /* Цвет ссылки */
+    font-weight: bold; /* Жирный шрифт */
+}
+
+.back-link:hover {
+    text-decoration: underline; /* Подчеркивание при наведении */
+}
+
+.centered-card {
+    display: flex; /* Flexbox для карточки */
+    flex-direction: row; /* Расположение элементов в строку */
+    width: 100%; /* Ширина карточки (можно настроить) */
+    max-width: 1000px; /* Максимальная ширина карточки */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для карточки */
+    border-radius: 8px; /* Закругленные углы */
+}
+
+.card-img-left {
+    width: 35%; /* Ширина изображения (можно настроить) */
+    height: auto; /* Автоматическая высота для сохранения пропорций */
+}
+
+.card-body {
+    /* display: flex; */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    padding: 20px; /* Отступы внутри карточки */
+    width: 65%; /* Ширина области текста (можно настроить) */
+}
+.btn  {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #000; /* Черный фон для кнопки */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn:hover{
+        background-color: #777;
+    }
+
+    /* Подвал */
+footer {
+  background-color: #333; /* Темный фон подвала */
+  color: white; /* Белый текст подвала */
+  padding: 20px 0; /* Отступы */
+}
+
+.footer_content, .footer_content2 {
+  display: flex;
+  justify-content: space-between; /* Распределение элементов */
+  align-items: center; /* Вертикальное выравнивание */
+  max-width: 1200px; /* Максимальная ширина подвала */
+  margin: auto; /* Центрирование */
+  padding: 0 20px; /* Горизонтальные отступы */
+}
+
+.contact p {
+    margin: 0; /* Убираем отступы у параграфов */
+}
+
+.site img {
+    margin-left: 10px; /* Отступ между иконками соцсетей */
+}

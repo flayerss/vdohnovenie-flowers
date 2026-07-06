@@ -1,0 +1,210 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Шапка */
+header {
+    background-color: #ffffff;
+    padding: 20px 0;
+}
+
+.header_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    font-size: 20px;
+}
+
+.logo img {
+    height: 150px; /* Установите высоту логотипа */
+}
+
+#menu {
+    display: flex;
+}
+
+#menuLink {
+    color: #000000;
+    text-decoration: none;
+    margin-left: 20px;
+    transition: color 0.3s;
+}
+
+#menuLink:hover {
+    color: #777;
+}
+.stroka
+{
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 10px auto;
+}
+.marquee{
+    font-size: 20px; /* Размер шрифта */
+            color: #000000; /* Цвет текста */
+}
+.main {
+    max-width: 1200px;
+    margin: 5px auto;
+    padding: 20px;
+}
+main {
+      max-width: 800px; /* Максимальная ширина основного контента */
+      margin: 20px auto; /* Центрирование основного контента */
+      padding: 20px;
+      background-color: #fff; /* Белый фон для основного контента */
+      border-radius: 8px; /* Скругление углов */
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для глубины */
+    }
+
+    .main_menu a {
+      display: inline-block;
+      margin-right: 15px;
+      text-decoration: none;
+      color: #000; /* Черный цвет ссылок */
+      font-weight: bold; /* Жирный текст для ссылок */
+    }
+
+    .main_menu a:hover {
+      color: #555; /* Серый цвет при наведении */
+    }
+.main_menu {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+
+#menus {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+#menus:hover {
+    color: #777;
+}
+    form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+
+button[type="submit"] {
+    background-color: #000000; /* Цвет кнопки */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+
+    input[type="text"]{
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+ textarea {
+      width: calc(100% - 20px);
+      height: 100px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc; /* Светло-серая рамка */
+      resize: none; /* Запретить изменение размера */
+      margin-bottom: 10px; /* Отступ снизу */
+      font-size: 16px; /* Размер шрифта для текста */
+    }
+
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
+}
+    .btn:hover{
+        background-color: #777;
+    }
+
+    .comment {
+      border-top: 1px solid #ccc; /* Разделительная линия между комментариями */
+      padding-top: 10px; /* Отступ сверху для комментариев */
+    }
+    /* Подвал */
+    footer {
+      background-color: #333; /* Темный фон подвала */
+      color: white; /* Белый текст подвала */
+      padding: 20px 0; /* Отступы */
+    }
+
+    .footer_content, .footer_content2 {
+      display: flex;
+      justify-content: space-between; /* Распределение элементов */
+      align-items: center; /* Вертикальное выравнивание */
+      max-width: 1200px; /* Максимальная ширина подвала */
+      margin: auto; /* Центрирование */
+      padding: 0 20px; /* Горизонтальные отступы */
+    }
+
+.contact p {
+    margin: 0; /* Убираем отступы у параграфов */
+}
+
+.site img {
+    margin-left: 10px; /* Отступ между иконками соцсетей */
+}
+/* Стили для карточек отзывов */
+.card {
+    background-color: #fff; /* Белый фон карточки */
+    border: 1px solid #ddd; /* Светло-серая рамка */
+    border-radius: 8px; /* Закругленные углы */
+    margin: 15px 0; /* Отступы сверху и снизу */
+    padding: 0px 15px; /* Внутренние отступы */
+    transition: transform 0.2s; /* Плавный эффект при наведении */
+}
+
+.card:hover {
+    transform: translateY(-1px); /* Подъем карточки при наведении */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень для глубины */
+
+}
+
+.card-title {
+    font-size: 1.25rem; /* Размер заголовка */
+    margin-bottom: 10px; /* Отступ снизу */
+    color: #4CAF50; /* Цвет заголовка */
+}
+
+.card-text {
+    font-size: 1rem; /* Размер текста отзыва */
+    color: #555; /* Цвет текста отзыва */
+}
