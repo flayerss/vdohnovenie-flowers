@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderApprovedMail;
+use App\Mail\OrderCancelledMail;
 use App\Models\Comment;
 use App\Models\Order;
 use App\Models\ProductsInBasket;
@@ -21,20 +23,13 @@ class AdminController extends Controller
     function setStatus(Request $request, $id)
     {
         $order = Order::find($id);
-        $email = $order->email;
         if($request->status==2)
         {
-            Mail::raw('Извините, ваш заказ отменен, попробуйте оформить снова', function($message) use ($email) {
-            $message->to($email)
-                    ->subject('Подтверждение заказа');
-        });
+            Mail::to($order->email)->queue(new OrderCancelledMail($order));
         }
         elseif ($request->status==3)
         {
-            Mail::raw('Ваш заказ принят и будет у вас в указанное вами время', function($message) use ($email) {
-            $message->to($email)
-                    ->subject('Подтверждение заказа');
-            });
+            Mail::to($order->email)->queue(new OrderApprovedMail($order));
         }
         $order->status_id=$request->status;
         $order->save();

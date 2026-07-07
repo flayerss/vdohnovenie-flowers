@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderPlacedMail;
 use App\Models\Basket;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -59,11 +59,8 @@ class OrderController extends Controller
         // Создание новой активной корзины
         Basket::create(['session_id' => session()->getId(), 'active' => 1]);
 
-        // Отправка письма
-        Mail::raw('Заказ оформлен', function($message) use ($validator) {
-            $message->to($validator['email'])
-                    ->subject('Подтверждение заказа');
-        });
+        // Отправка письма (через очередь)
+        Mail::to($validator['email'])->queue(new OrderPlacedMail($order));
         $yes = 1;
         $total = $request->input('total');
         // Перенаправление с данными о заказе
