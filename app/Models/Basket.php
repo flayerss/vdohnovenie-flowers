@@ -10,6 +10,7 @@ class Basket extends Model
     use HasFactory;
     protected $fillable=
     [
+        'session_id',
         'active'
     ];
     public function order()

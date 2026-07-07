@@ -22,8 +22,8 @@ class OrderController extends Controller
         'type' => 'required',
     ]);
 
-    $basket = Basket::where('active', 1)->first();
-    
+    $basket = Basket::where('session_id', session()->getId())->where('active', 1)->first();
+
     if ($basket) {
         // Создание заказа
         $order = Order::create([
@@ -43,7 +43,7 @@ class OrderController extends Controller
         $basket->save();
 
         // Создание новой активной корзины
-        Basket::create(['active' => 1]);
+        Basket::create(['session_id' => session()->getId(), 'active' => 1]);
 
         // Отправка письма
         Mail::raw('Заказ оформлен', function($message) use ($validator) {

@@ -12,7 +12,9 @@ class BasketController extends Controller
     function addProduct($id)
     {
         $product = Product::find($id);
-        $basket = Basket::where('active', 1)->first();
+        $basket = Basket::firstOrCreate(
+            ['session_id' => session()->getId(), 'active' => 1]
+        );
         $productinbasket = ProductsInBasket::where('product_id', $product->id)->where('basket_id', $basket->id)->first();
         if (!$productinbasket)
         {
@@ -31,11 +33,10 @@ class BasketController extends Controller
     }
     function getBasket()
     {
-        $basket = Basket::where('active', 1)->first();
-        if ($basket)
-        {
-            $basketproducts = ProductsInBasket::where('basket_id', $basket->id)->get();
-        }
+        $basket = Basket::where('session_id', session()->getId())->where('active', 1)->first();
+        $basketproducts = $basket
+            ? ProductsInBasket::where('basket_id', $basket->id)->get()
+            : collect();
         if ($basketproducts->count()>0)
         {
             return view('corsina', compact('basketproducts'));

@@ -16,10 +16,14 @@ class CommentController extends Controller
     }
     public function addComment(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'comment' => 'required|string|max:2000',
+        ]);
         Comment::create(
             [
-                'name_user'=> $request->name,
-                'name' => $request->comment,
+                'name_user'=> $validated['name'],
+                'name' => $validated['comment'],
                 'status_id' => 1
             ]
         );
