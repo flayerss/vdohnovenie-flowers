@@ -16,7 +16,7 @@
   <header>
     <div class="header_content">
       <div class="logo">
-        <a href="{{ route('index') }}"><img src="/public/img/logo1.png" /></a>
+        <a href="{{ route('index') }}"><img src="/img/logo1.png" /></a>
       </div>
       <div class="logo__info">
         <p>Связаться с нами: +7 (919) 377-88-04</p>
@@ -26,6 +26,11 @@
         <a href="{{ route('comment') }}" id="menuLink">Отзывы</a>
         <a href="{{  route('dostavka') }}" id="menuLink">Доставка</a>
         <a href="{{route('corsina')}}" id="menuLink">Корзина</a>
+        @auth
+          <a href="{{ route('admin') }}" id="menuLink">Админ-панель</a>
+        @else
+          <a href="{{ route('login') }}" id="menuLink">Вход для администратора</a>
+        @endauth
       </div>
     </div>
   </header>
@@ -60,8 +65,8 @@
       <p>Можете позвонить нам по номеру +7 (919) 377-88-04</p><br>
     </div>
     <div class="site">
-      <a href="https://vk.com/wild_flower_shop"><img src="/public/img/Vk.png" width="33" height="30" /></a>
-      <a href="https://web.telegram.org/a/#7984889021" target="_blank"><img src="/public/img/Tг.png" width="33" height="30" /></a>
+      <a href="https://vk.com/wild_flower_shop"><img src="/img/Vk.png" width="33" height="30" /></a>
+      <a href="https://web.telegram.org/a/#7984889021" target="_blank"><img src="/img/Tг.png" width="33" height="30" /></a>
       </div>
     </div>
   </footer>

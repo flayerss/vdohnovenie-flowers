@@ -52,6 +52,18 @@
         <li>
             <a href="{{ route('admin') }}" class="{{ request()->is('admin') ? 'underline' : '' }}">Заявки</a>
         </li>
+        <li>
+            <a href="{{ route('index') }}">На сайт</a>
+        </li>
+        <li>
+            <a href="{{ route('profile.edit') }}">Профиль</a>
+        </li>
+        <li>
+            <form action="{{ route('logout') }}" method="post" style="margin:0;">
+                @csrf
+                <button type="submit" style="background:none;border:none;color:white;font-weight:bold;cursor:pointer;padding:0;">Выйти</button>
+            </form>
+        </li>
     </ul>
 </nav>
     <h2>Комментарии</h2>
