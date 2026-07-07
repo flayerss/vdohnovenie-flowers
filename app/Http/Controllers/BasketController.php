@@ -11,11 +11,18 @@ class BasketController extends Controller
 {
     function addProduct($id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         $basket = Basket::firstOrCreate(
             ['session_id' => session()->getId(), 'active' => 1]
         );
         $productinbasket = ProductsInBasket::where('product_id', $product->id)->where('basket_id', $basket->id)->first();
+        $currentCount = $productinbasket ? $productinbasket->count : 0;
+
+        if ($currentCount + 1 > $product->count)
+        {
+            return back()->withErrors(['error' => 'Недостаточно товара "'.$product->name.'" на складе']);
+        }
+
         if (!$productinbasket)
         {
             $productinbasket = ProductsInBasket::create([
@@ -46,9 +53,29 @@ class BasketController extends Controller
             return view('corsina');
         }
     }
+    function updateQuantity(Request $request, $id)
+    {
+        $item = ProductsInBasket::findOrFail($id);
+        if (!$item->basket || $item->basket->session_id !== session()->getId())
+        {
+            abort(403);
+        }
+
+        $count = (int) $request->input('count', 1);
+        $count = max(1, min($count, $item->product->count));
+        $item->count = $count;
+        $item->save();
+
+        return redirect()->route('corsina');
+    }
+
     function delProduct($id)
     {
-        $product = ProductsInBasket::find($id);
+        $product = ProductsInBasket::findOrFail($id);
+        if (!$product->basket || $product->basket->session_id !== session()->getId())
+        {
+            abort(403);
+        }
         $product->delete();
         return redirect()->route('corsina');
     }

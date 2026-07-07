@@ -108,9 +108,10 @@ public function export(Request $request)
             'status_id',
             
         );
-        //выгрузка бд по статусу выбранному 
+        //выгрузка бд по статусу выбранному
+        $statusFilter = $request->input('status');
         if (!empty($statusFilter)) {
-            $ordersQuery->where('status', $statusFilter);
+            $ordersQuery->where('status_id', $statusFilter);
         }
         $orders = $ordersQuery->get();
         return $orders;

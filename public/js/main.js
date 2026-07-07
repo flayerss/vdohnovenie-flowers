@@ -35,20 +35,48 @@ document.addEventListener('DOMContentLoaded', function() {
         totalPriceInput.innerHTML = "Итого: " + total.toFixed(2) + " ₽";
     }
 
+    function persistQuantity(container, quantityInput) {
+        const updateUrl = container.dataset.updateUrl;
+        if (!updateUrl) {
+            return;
+        }
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+        fetch(updateUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: 'count=' + encodeURIComponent(quantityInput.value),
+        });
+    }
+
     // Обработчики событий остаются без изменений
     containers.forEach(container => {
         const quantityInput = container.querySelector('.quantity');
         const minusButton = container.querySelector('.number-minus');
         const plusButton = container.querySelector('.number-plus');
+        const maxQuantity = parseInt(quantityInput.max) || Infinity;
 
-        quantityInput.addEventListener('change', updateTotal);
+        quantityInput.addEventListener('change', () => {
+            if (parseInt(quantityInput.value) > maxQuantity) {
+                quantityInput.value = maxQuantity;
+            }
+            updateTotal();
+            persistQuantity(container, quantityInput);
+        });
         minusButton.addEventListener('click', () => {
             quantityInput.stepDown();
             updateTotal();
+            persistQuantity(container, quantityInput);
         });
         plusButton.addEventListener('click', () => {
-            quantityInput.stepUp();
+            if (parseInt(quantityInput.value) < maxQuantity) {
+                quantityInput.stepUp();
+            }
             updateTotal();
+            persistQuantity(container, quantityInput);
         });
     });
 

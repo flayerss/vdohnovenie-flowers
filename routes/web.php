@@ -34,6 +34,7 @@ Route::get('/dostavka', function () {
     return view('dostavka', compact('types'));
 })->name('dostavka');
 Route::get('/corsina/add/{id}', [BasketController::class, 'addProduct'])->name('corsinad');
+Route::post('/corsina/update/{id}', [BasketController::class, 'updateQuantity'])->name('updateQuantity');
 
 // Админка — требует авторизации
 Route::middleware('auth')->group(function () {

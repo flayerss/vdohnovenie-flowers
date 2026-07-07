@@ -12,6 +12,7 @@
     <link rel="apple-touch-icon" href="/img/logo1.png">
     
   <title>Бутик цветов</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <style>
   .number {
@@ -86,18 +87,28 @@
   
   <!--контент-->
   <div class="main__content">
+    @if ($errors->any())
+      <div class="alert" style="color:red;">
+        @foreach ($errors->all() as $error)
+          <p>{{ $error }}</p>
+        @endforeach
+      </div>
+    @endif
     <div class="corsblock">
       @if (isset($basketproducts))
       @foreach ($basketproducts as $basketproduct)
-      <div class="container">
+      <div class="container" data-item-id="{{ $basketproduct->id }}" data-update-url="{{ route('updateQuantity', $basketproduct->id) }}">
         <img class="corsimg" src="{{$basketproduct->product->img}}">
         <div class="text-container">
           <p class="strc">{{$basketproduct->product->name}}</p>
           <p class="strcs price" data-price="{{$basketproduct->product->price}}">{{$basketproduct->product->price}} ₽</p>
+          @if ($basketproduct->product->count < 1)
+            <p style="color:red;">Нет в наличии</p>
+          @endif
         </div>
         <div class="number">
           <button class="number-minus" type="button">-</button>
-          <input type="number" min="1" value="{{ $basketproduct->count }}" class="quantity">
+          <input type="number" min="1" max="{{ $basketproduct->product->count }}" value="{{ $basketproduct->count }}" class="quantity">
           <button class="number-plus" type="button">+</button>
         </div>
         <form action="{{ route('delProduct', $basketproduct->id) }}" class="form-delete" method="GET">

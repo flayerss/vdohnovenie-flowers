@@ -25,6 +25,20 @@ class OrderController extends Controller
     $basket = Basket::where('session_id', session()->getId())->where('active', 1)->first();
 
     if ($basket) {
+        // Проверка остатков перед оформлением
+        foreach ($basket->productsinbasket as $item) {
+            if ($item->count > $item->product->count) {
+                return back()->withErrors([
+                    'error' => 'Товара "'.$item->product->name.'" уже не осталось в нужном количестве, обновите корзину',
+                ]);
+            }
+        }
+
+        // Списание остатков
+        foreach ($basket->productsinbasket as $item) {
+            $item->product->decrement('count', $item->count);
+        }
+
         // Создание заказа
         $order = Order::create([
             'basket_id' => $basket->id,
