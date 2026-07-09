@@ -15,40 +15,62 @@
   @include('partials.shop-header')
 
   <section class="section">
-    <div class="wrap" style="max-width:760px;">
+    <div class="wrap">
       <div class="section-head">
         <div>
           <h2 class="display">Отзывы покупателей</h2>
-          <p class="section-sub">Поделитесь впечатлением о заказе</p>
+          <p class="section-sub">
+            @if(count($comments))
+              {{ count($comments) }} {{ count($comments) == 1 ? 'отзыв' : 'отзывов' }} от наших покупателей
+            @else
+              Поделитесь впечатлением о заказе — станьте первым
+            @endif
+          </p>
         </div>
       </div>
 
-      @if ($errors->any())
-        <div class="alert">
-          @foreach ($errors->all() as $error)
-            <p>{{ $error }}</p>
-          @endforeach
-        </div>
-      @endif
+      <div class="review-layout">
+        <aside class="review-form-card">
+          <h3>Оставить отзыв</h3>
+          <p class="section-sub" style="margin-top:0; margin-bottom:16px;">Отзыв появится на сайте после проверки модератором</p>
 
-      <form action="{{ route('comment') }}" method="POST" class="info-card" style="margin-bottom:32px;">
-        @csrf
-        <label class="field-label" for="name">Ваше имя</label>
-        <input type="text" name="name" id="name" placeholder="Как к вам обращаться" value="{{ old('name') }}" required>
-        <label class="field-label" for="comment" style="margin-top:8px;">Отзыв</label>
-        <textarea name="comment" id="comment" placeholder="Расскажите, как всё прошло" required>{{ old('comment') }}</textarea>
-        <button class="btn btn-primary" type="submit" style="align-self:flex-start; margin-top:4px;">Оставить отзыв</button>
-      </form>
+          @if ($errors->any())
+            <div class="alert">
+              @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+              @endforeach
+            </div>
+          @endif
 
-      <div style="display:flex; flex-direction:column; gap:16px;">
-        @forelse ($comments as $comment)
-        <div class="info-card">
-          <h5>{{ $comment->name_user }}</h5>
-          <p>{{ $comment->name }}</p>
+          <form action="{{ route('comment') }}" method="POST" class="field-group">
+            @csrf
+            <div>
+              <label class="field-label" for="name">Ваше имя</label>
+              <input type="text" name="name" id="name" placeholder="Как к вам обращаться" value="{{ old('name') }}" required>
+            </div>
+            <div>
+              <label class="field-label" for="comment">Отзыв</label>
+              <textarea name="comment" id="comment" placeholder="Расскажите, как всё прошло" required>{{ old('comment') }}</textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Отправить отзыв</button>
+          </form>
+        </aside>
+
+        <div class="review-list">
+          @forelse ($comments as $comment)
+          <div class="review-card">
+            <div class="review-avatar">{{ mb_substr($comment->name_user, 0, 1) }}</div>
+            <div class="review-body">
+              <h5>{{ $comment->name_user }}</h5>
+              <p>{{ $comment->name }}</p>
+            </div>
+          </div>
+          @empty
+            <div class="review-empty">
+              <p class="section-sub">Пока нет отзывов — станьте первым!</p>
+            </div>
+          @endforelse
         </div>
-        @empty
-          <p class="section-sub">Пока нет отзывов — станьте первым!</p>
-        @endforelse
       </div>
     </div>
   </section>

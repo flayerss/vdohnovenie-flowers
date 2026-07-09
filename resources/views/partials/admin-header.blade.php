@@ -9,6 +9,7 @@
     <nav class="admin-tabs">
       <a href="{{ route('admin') }}" class="admin-tab {{ request()->is('admin') ? 'is-active' : '' }}">Заявки</a>
       <a href="{{ route('otziv') }}" class="admin-tab {{ request()->is('admin/otziv') ? 'is-active' : '' }}">Комментарии</a>
+      <a href="{{ route('admin.products') }}" class="admin-tab {{ request()->is('admin/products*') ? 'is-active' : '' }}">Товары</a>
     </nav>
     <div class="admin-actions">
       <a class="btn btn-ghost btn-sm" href="{{ route('index') }}">На сайт</a>

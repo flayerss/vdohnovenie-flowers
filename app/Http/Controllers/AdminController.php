@@ -6,8 +6,10 @@ use App\Mail\OrderApprovedMail;
 use App\Mail\OrderCancelledMail;
 use App\Models\Comment;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\ProductsInBasket;
 use App\Models\Status;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -92,27 +94,5 @@ class AdminController extends Controller
         $products = ProductsInBasket::all();
         
         return view('admin', compact('orders', 'statuses', 'products'));
-    }
-    function sortOrder(Request $request)
-    {
-        $sort = $request->sort;
-        if($sort==2)
-        {
-            $orders = Order::oldest()->get();
-        }
-        elseif ($sort == 1)
-        {
-            $orders = Order::latest()->get();
-        }
-       $statuses = Status::all();
-        $products = ProductsInBasket::all();
-        return view('admin', compact('orders', 'statuses', 'products')); 
-    }
-    function sortStatus(Request $request)
-    {
-        $orders = Order::where('status_id', $request->sort_status)->get();
-       $statuses = Status::all();
-        $products = ProductsInBasket::all();
-        return view('admin', compact('orders', 'statuses', 'products')); 
     }
 }

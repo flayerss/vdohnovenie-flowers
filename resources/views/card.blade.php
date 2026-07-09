@@ -15,7 +15,7 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="info-grid" style="grid-template-columns:1fr 1fr; align-items:start;">
+      <div class="product-detail">
         <div class="bouquet-art" style="aspect-ratio:4/3;">
           <img src="{{ $product->img }}" alt="{{ $product->name }}">
         </div>

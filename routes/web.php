@@ -5,6 +5,7 @@ use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderExportController;
+use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Type;
@@ -43,9 +44,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/otziv/{id?}', [AdminController::class, 'setcomment'])->name('setotziv');
     Route::post('/status/{id?}', [AdminController::class, 'setStatus'])->name('setstatus');
     Route::post('/admin/sort', [AdminController::class, 'handleSort'])->name('sort');
-    Route::post('/admin/status', [AdminController::class, 'sortStatus'])->name('sort_status');
     Route::post('/admin/comment/sort', [AdminController::class, 'sortComment'])->name('sort_comment');
     Route::get('/orders/export', [OrderExportController::class, 'export'])->name('export');
+
+    Route::get('/admin/products', [ProductAdminController::class, 'index'])->name('admin.products');
+    Route::get('/admin/products/create', [ProductAdminController::class, 'create'])->name('admin.products.create');
+    Route::post('/admin/products', [ProductAdminController::class, 'store'])->name('admin.products.store');
+    Route::get('/admin/products/{id}/edit', [ProductAdminController::class, 'edit'])->name('admin.products.edit');
+    Route::post('/admin/products/{id}', [ProductAdminController::class, 'update'])->name('admin.products.update');
+    Route::post('/admin/products/{id}/delete', [ProductAdminController::class, 'destroy'])->name('admin.products.delete');
 });
 
 Route::get('/dashboard', function () {

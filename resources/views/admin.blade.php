@@ -19,27 +19,23 @@
     </div>
 
     <div class="toolbar">
-      <form action="{{ route('sort') }}" method="post" id="dateSortForm">
+      <form action="{{ route('sort') }}" method="post" id="orderFilterForm">
         @csrf
-        <select name="sort" id="sortSelect" onchange="document.getElementById('dateSortForm').submit()">
+        <select name="sort" id="sortSelect" onchange="document.getElementById('orderFilterForm').submit()">
           <option value="0">По дате оформления</option>
-          <option value="1">Сначала новые</option>
-          <option value="2">Сначала старые</option>
+          <option value="1" @selected(request('sort')=='1')>Сначала новые</option>
+          <option value="2" @selected(request('sort')=='2')>Сначала старые</option>
         </select>
-      </form>
-
-      <form action="{{ route('sort_status') }}" method="post" id="statusSortForm">
-        @csrf
-        <select name="sort_status" id="sortStatus" onchange="document.getElementById('statusSortForm').submit()">
+        <select name="sort_status" id="sortStatus" onchange="document.getElementById('orderFilterForm').submit()">
           <option value="">По статусу заказа</option>
           @foreach ($statuses as $status)
-            <option value="{{ $status->id }}">{{ $status->name }}</option>
+            <option value="{{ $status->id }}" @selected(request('sort_status')==$status->id)>{{ $status->name }}</option>
           @endforeach
         </select>
       </form>
 
       <a href="{{ route('admin') }}" class="btn btn-ghost btn-sm">Сбросить сортировку</a>
-      <a href="{{ route('export', ['status' => request('status')]) }}" class="btn btn-primary btn-sm">Выгрузить Excel</a>
+      <a href="{{ route('export', ['status' => request('sort_status')]) }}" class="btn btn-primary btn-sm">Выгрузить Excel</a>
     </div>
 
     <div class="order-list">
