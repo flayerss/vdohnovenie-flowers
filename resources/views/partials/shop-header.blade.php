@@ -4,16 +4,7 @@
   <div class="wrap header-row">
     <a class="logo" href="{{ route('index') }}">
       <span class="logo-badge">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="8" r="3.4" fill="var(--accent)"/>
-          <circle cx="7" cy="12.5" r="3" fill="var(--sage)"/>
-          <circle cx="17" cy="12.5" r="3" fill="var(--gold)"/>
-          <path d="M12 11v8" stroke="var(--accent-strong)" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <span class="logo-text">
-        <span class="logo-word">Вдохновение</span>
-        <span class="logo-tagline">дари настроение</span>
+        <img src="/img/logo1.png" alt="Вдохновение">
       </span>
     </a>
     <nav class="primary">

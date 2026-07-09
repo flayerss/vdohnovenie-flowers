@@ -1,7 +1,9 @@
 <footer class="site-footer">
   <div class="wrap footer-grid">
     <div class="footer-brand">
-      <span class="logo-word">Вдохновение</span>
+      <span class="logo-badge" style="width:64px;height:64px;">
+        <img src="/img/logo1.png" alt="Вдохновение">
+      </span>
       <p>Цветочный магазин с доставкой по Богдановичу и Богдановичскому району. Букеты, комнатные растения, сладкие подарки и открытки.</p>
     </div>
     <div class="footer-col">

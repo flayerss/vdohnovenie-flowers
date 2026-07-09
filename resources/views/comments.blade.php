@@ -1,118 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/stylecomments.css">
-    <link rel="icon" href="/img/logo.jpg" type="image/x-icon">
-    <link rel="shortcut icon" href="/img/logo.jpg" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/img/logo.jpg">
-    <title>Админ панель</title>
-    <style>
-    nav {
-        background-color: #333; /* Цвет фона навигации */
-        padding: 10px 20px; /* Отступы внутри навигации */
-        border-radius: 5px; /* Закругленные углы */
-    }
-
-    nav ul {
-        list-style-type: none; /* Убираем маркеры списка */
-        padding: 0; /* Убираем отступы */
-        margin: 0; /* Убираем внешние отступы */
-        display: flex; /* Используем flexbox для горизонтального расположения элементов */
-    }
-
-    nav li {
-        margin-right: 20px; /* Отступ между пунктами меню */
-    }
-
-    nav a {
-        color: white; /* Цвет текста ссылок */
-        text-decoration: none; /* Убираем подчеркивание по умолчанию */
-        font-weight: bold; /* Жирный шрифт для ссылок */
-        transition: color 0.3s, text-decoration 0.3s; /* Плавный переход для цвета и подчеркивания */
-    }
-
-    nav a:hover {
-        color: #ffcc00; /* Цвет текста при наведении */
-        text-decoration: underline; /* Подчеркивание при наведении */
-    }
-
-    .underline {
-        text-decoration: underline; /* Подчеркивание для активной ссылки */
-    }
-</style>
+    <link rel="stylesheet" href="/css/shop-theme.css">
+    <link rel="stylesheet" href="/css/admin-theme.css">
+    <link rel="icon" href="/img/logo1.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/img/logo1.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/img/logo1.png">
+    <title>Комментарии — админ-панель</title>
 </head>
 <body>
-<nav>
-    <ul>
-        <li>
-            <a href="{{ route('otziv') }}" class="{{ request()->is('admin/otziv') ? 'underline' : '' }}">Комментарии</a>
-        </li>
-        <li>
-            <a href="{{ route('admin') }}" class="{{ request()->is('admin') ? 'underline' : '' }}">Заявки</a>
-        </li>
-        <li>
-            <a href="{{ route('index') }}">На сайт</a>
-        </li>
-        <li>
-            <a href="{{ route('profile.edit') }}">Профиль</a>
-        </li>
-        <li>
-            <form action="{{ route('logout') }}" method="post" style="margin:0;">
-                @csrf
-                <button type="submit" style="background:none;border:none;color:white;font-weight:bold;cursor:pointer;padding:0;">Выйти</button>
-            </form>
-        </li>
-    </ul>
-</nav>
-    <h2>Комментарии</h2>
-    <form action="{{ route('sort_comment') }}" method="post" id="statusSortForm">
-    @csrf
-    <select name="sort_status" id="sortStatus" style="margin: 10px 0;" onchange="document.getElementById('statusSortForm').submit()">
-        <option value="">По статусу заказа</option>
-        @foreach ($statuses as $status)
-            <option value="{{$status->id}}">{{$status->name}}</option>
-        @endforeach
-    </select>
-<a href="{{route('otziv')}}">Сбросить сортировку</a>
-</form>
-    @foreach ($comments as $comment)
-    <div class="card">
-        <h1>Комментарий: {{ $comment->name }}</h1>
-        <p>Статус: {{ $comment->status->name }}</p>
-        <form action="{{ route('setotziv', $comment->id) }}" method="post">
-            @csrf
-            <select name="status" id="">
-                @foreach ($statuses as $status)
-                <option value="{{ $status->id }}">{{ $status->name }}</option>
-                @endforeach
-            </select>
-            <button type="submit">Сохранить</button>
-        </form>
+  @include('partials.admin-header')
+
+  <div class="wrap admin-page">
+    <div class="admin-page-head">
+      <h1>Комментарии</h1>
     </div>
-    @endforeach
-    <script>
-    
-    // Объединенный обработчик для всех форм
-    document.addEventListener('DOMContentLoaded', function() {
-        const sortSelect = document.getElementById('sortSelect');
-        const statusSelect = document.getElementById('sortStatus');
-    
-        [sortSelect, statusSelect].forEach(select => {
-            select.addEventListener('change', function(e) {
-                const form = document.getElementById(select.id.includes('Status') ? 
-                    'statusSortForm' : 'dateSortForm');
-                
-                if (!shouldSubmit(e)) return;
-                form.submit();
-            });
-        });
-    });
-    
-    function shouldSubmit(event) {
-        return event.target.options[event.target.selectedIndex].value !== '';
-    }
-    </script>
+
+    <div class="toolbar">
+      <form action="{{ route('sort_comment') }}" method="post" id="statusSortForm">
+        @csrf
+        <select name="sort_status" id="sortStatus" onchange="document.getElementById('statusSortForm').submit()">
+          <option value="">По статусу заказа</option>
+          @foreach ($statuses as $status)
+            <option value="{{ $status->id }}">{{ $status->name }}</option>
+          @endforeach
+        </select>
+      </form>
+      <a href="{{ route('otziv') }}" class="btn btn-ghost btn-sm">Сбросить сортировку</a>
+    </div>
+
+    <div class="comment-list">
+      @forelse ($comments as $comment)
+      <div class="comment-card">
+        <div class="comment-card-text">
+          <h3>{{ $comment->name_user }}</h3>
+          <p>{{ $comment->name }}</p>
+          <span class="status-badge status-{{ $comment->status_id }}">{{ $comment->status->name }}</span>
+        </div>
+        <form action="{{ route('setotziv', $comment->id) }}" method="post">
+          @csrf
+          <select name="status">
+            @foreach ($statuses as $status)
+              <option value="{{ $status->id }}" @selected($status->id == $comment->status_id)>{{ $status->name }}</option>
+            @endforeach
+          </select>
+          <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+        </form>
+      </div>
+      @empty
+        <p class="section-sub">Отзывов пока нет.</p>
+      @endforelse
+    </div>
+  </div>
 </body>
 </html>

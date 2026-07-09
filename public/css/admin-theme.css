@@ -1,0 +1,79 @@
+/* ==========================================================================
+   Вдохновение — тема админ-панели (поверх shop-theme.css)
+   ========================================================================== */
+
+body{padding-bottom:60px;}
+
+.admin-header{
+  background:var(--surface); border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:20;
+}
+.admin-header-row{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:20px; padding:14px 28px; flex-wrap:wrap;
+}
+.admin-brand{display:flex; align-items:center; gap:10px; text-decoration:none;}
+.admin-brand .logo-word{font-size:20px;}
+.admin-tabs{display:flex; gap:6px; flex-wrap:wrap;}
+.admin-tab{
+  text-decoration:none; color:var(--ink-soft); font-size:14.5px; font-weight:600;
+  padding:9px 16px; border-radius:999px; border:1px solid transparent;
+}
+.admin-tab:hover{color:var(--accent-strong);}
+.admin-tab.is-active{background:var(--accent-tint); color:var(--accent-strong); border-color:var(--accent);}
+.admin-actions{display:flex; align-items:center; gap:10px;}
+.admin-actions form{margin:0;}
+
+.admin-page{padding:36px 0;}
+.admin-page-head{display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:24px;}
+.admin-page-head h1{font-family:var(--script); font-style:italic; font-size:30px; margin:0;}
+
+.toolbar{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:24px;
+}
+.toolbar select{width:auto; min-width:200px;}
+.toolbar .btn{white-space:nowrap;}
+
+.order-list{display:flex; flex-direction:column; gap:16px;}
+.order-card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:22px 24px;
+}
+.order-card-head{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:14px;}
+.order-card-head h3{margin:0; font-size:17px; font-weight:700;}
+.order-id{color:var(--ink-soft); font-size:13px; font-weight:600;}
+
+.status-badge{
+  display:inline-flex; align-items:center; gap:6px; padding:5px 13px; border-radius:999px;
+  font-size:12.5px; font-weight:700;
+}
+.status-badge.status-1{background:var(--gold); color:#fff; opacity:.9;}
+.status-badge.status-2{background:var(--danger-tint); color:var(--danger);}
+.status-badge.status-3{background:var(--sage-tint); color:#3E5232;}
+
+.order-meta{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:6px 20px; margin-bottom:14px;}
+.order-meta div{font-size:14px; color:var(--ink-soft);}
+.order-meta div strong{color:var(--ink); font-weight:600;}
+
+.order-items{display:flex; flex-direction:column; gap:4px; margin-bottom:16px; padding:12px 14px; background:var(--surface-2); border-radius:var(--radius-sm);}
+.order-items div{font-size:13.5px; color:var(--ink-soft);}
+
+.order-actions{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.order-actions form{display:flex; align-items:center; gap:10px; margin:0;}
+.order-actions select{width:auto; min-width:160px;}
+
+.comment-list{display:flex; flex-direction:column; gap:14px;}
+.comment-card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:18px 22px; display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
+}
+.comment-card-text{flex:1; min-width:240px;}
+.comment-card-text h3{margin:0 0 6px; font-size:15.5px;}
+.comment-card-text p{margin:0; color:var(--ink-soft); font-size:14px;}
+.comment-card form{display:flex; align-items:center; gap:10px; margin:0;}
+.comment-card select{width:auto; min-width:160px;}
+
+@media (max-width:780px){
+  .admin-header-row{flex-direction:column; align-items:flex-start;}
+  .order-actions form{flex-wrap:wrap;}
+}

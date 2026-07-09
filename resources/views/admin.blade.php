@@ -1,146 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/styleadmin.css">
-    <link rel="icon" href="/img/logo.jpg" type="image/x-icon">
-    <link rel="shortcut icon" href="/img/logo.jpg" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/img/logo.jpg">
-    <title>Админ панель</title>
-    <style>
-    nav {
-        background-color: #333; /* Цвет фона навигации */
-        padding: 10px 20px; /* Отступы внутри навигации */
-        border-radius: 5px; /* Закругленные углы */
-    }
-
-    nav ul {
-        list-style-type: none; /* Убираем маркеры списка */
-        padding: 0; /* Убираем отступы */
-        margin: 0; /* Убираем внешние отступы */
-        display: flex; /* Используем flexbox для горизонтального расположения элементов */
-    }
-
-    nav li {
-        margin-right: 20px; /* Отступ между пунктами меню */
-    }
-
-    nav a {
-        color: white; /* Цвет текста ссылок */
-        text-decoration: none; /* Убираем подчеркивание по умолчанию */
-        font-weight: bold; /* Жирный шрифт для ссылок */
-        transition: color 0.3s, text-decoration 0.3s; /* Плавный переход для цвета и подчеркивания */
-    }
-
-    nav a:hover {
-        color: #ffcc00; /* Цвет текста при наведении */
-        text-decoration: underline; /* Подчеркивание при наведении */
-    }
-
-    .underline {
-        text-decoration: underline; /* Подчеркивание для активной ссылки */
-    }
-</style>
+    <link rel="stylesheet" href="/css/shop-theme.css">
+    <link rel="stylesheet" href="/css/admin-theme.css">
+    <link rel="icon" href="/img/logo1.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/img/logo1.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/img/logo1.png">
+    <title>Заявки — админ-панель</title>
 </head>
 <body>
-  <nav>
-    <ul>
-        <li>
-            <a href="{{ route('otziv') }}" class="{{ request()->is('admin/otziv') ? 'underline' : '' }}">Комментарии</a>
-        </li>
-        <li>
-            <a href="{{ route('admin') }}" class="{{ request()->is('admin') ? 'underline' : '' }}">Заявки</a>
-        </li>
-        <li>
-            <a href="{{ route('index') }}">На сайт</a>
-        </li>
-        <li>
-            <a href="{{ route('profile.edit') }}">Профиль</a>
-        </li>
-        <li>
-            <form action="{{ route('logout') }}" method="post" style="margin:0;">
-                @csrf
-                <button type="submit" style="background:none;border:none;color:white;font-weight:bold;cursor:pointer;padding:0;">Выйти</button>
-            </form>
-        </li>
-    </ul>
-</nav>
+  @include('partials.admin-header')
 
-<h2>Заявки</h2>
-<form action="{{ route('sort') }}" method="post" id="dateSortForm">
-    @csrf
-    <select name="sort" id="sortSelect" style="margin: 10px 0;" onchange="document.getElementById('dateSortForm').submit()">
-        <option value="0">По дате оформления</option>
-        <option value="1">Сначала новые</option>
-        <option value="2">Сначала старые</option>
-    </select>
-</form>
+  <div class="wrap admin-page">
+    <div class="admin-page-head">
+      <h1>Заявки</h1>
+    </div>
 
-<form action="{{ route('sort_status') }}" method="post" id="statusSortForm">
-    @csrf
-    <select name="sort_status" id="sortStatus" style="margin: 10px 0;" onchange="document.getElementById('statusSortForm').submit()">
-        <option value="">По статусу заказа</option>
-        @foreach ($statuses as $status)
-            <option value="{{$status->id}}">{{$status->name}}</option>
-        @endforeach
-    </select>
-</form>
-<a href="{{route('admin')}}">Сбросить сортировку</a>
-<a href="{{ route('export', ['status' => request('status')]) }}">Выгрузить Excel</a>
-@foreach ($orders as $order)
-<div class="card">
-    <h1>Имя: {{ $order->name }}</h1>
-    <p>Адрес: {{ $order->dostavka }}</p>
-    <p>Телефон: {{ $order->phone }}</p>
-    <p>Почта: {{ $order->email }}</p>
-    <p>Дата: {{ $order->date }}</p>
-    <p>Время: {{ $order->time }}</p>
-    <p>Тип оплаты: {{ $order->type_oplata }}</p>
-    <p>Статус заказа: {{ $order->status->name }}</p>
-    <p>Заказ: {{ $order->id }}</p>
-    @foreach ($order->basket->productsinbasket as $item)
-    <p>Название продукта: {{ $item->product->name }}</p>
-    <p>Количество: {{ $item->product->count }}</p>
-    @endforeach
-    <p>Оформлен: {{ $order->created_at }}</p>
-    <form action="{{ route('setstatus', $order->id) }}" method="post">
+    <div class="toolbar">
+      <form action="{{ route('sort') }}" method="post" id="dateSortForm">
         @csrf
-        <select name="status" id="">
-            @foreach ($statuses as $status)
-            <option value="{{ $status->id }}">{{ $status->name }}</option>
-            @endforeach
+        <select name="sort" id="sortSelect" onchange="document.getElementById('dateSortForm').submit()">
+          <option value="0">По дате оформления</option>
+          <option value="1">Сначала новые</option>
+          <option value="2">Сначала старые</option>
         </select>
-        <button type="submit">Сохранить</button>
-    </form>
-</div>
-@endforeach
-<style>
-    .underline {
-        text-decoration: underline;
-    }
-</style>
-<script>
-    
-    // Объединенный обработчик для всех форм
-    document.addEventListener('DOMContentLoaded', function() {
-        const sortSelect = document.getElementById('sortSelect');
-        const statusSelect = document.getElementById('sortStatus');
-    
-        [sortSelect, statusSelect].forEach(select => {
-            select.addEventListener('change', function(e) {
-                const form = document.getElementById(select.id.includes('Status') ? 
-                    'statusSortForm' : 'dateSortForm');
-                
-                if (!shouldSubmit(e)) return;
-                form.submit();
-            });
-        });
-    });
-    
-    function shouldSubmit(event) {
-        return event.target.options[event.target.selectedIndex].value !== '';
-    }
-    </script>
+      </form>
+
+      <form action="{{ route('sort_status') }}" method="post" id="statusSortForm">
+        @csrf
+        <select name="sort_status" id="sortStatus" onchange="document.getElementById('statusSortForm').submit()">
+          <option value="">По статусу заказа</option>
+          @foreach ($statuses as $status)
+            <option value="{{ $status->id }}">{{ $status->name }}</option>
+          @endforeach
+        </select>
+      </form>
+
+      <a href="{{ route('admin') }}" class="btn btn-ghost btn-sm">Сбросить сортировку</a>
+      <a href="{{ route('export', ['status' => request('status')]) }}" class="btn btn-primary btn-sm">Выгрузить Excel</a>
+    </div>
+
+    <div class="order-list">
+      @forelse ($orders as $order)
+      <div class="order-card">
+        <div class="order-card-head">
+          <h3>{{ $order->name }}</h3>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="order-id">Заказ №{{ $order->id }}</span>
+            <span class="status-badge status-{{ $order->status_id }}">{{ $order->status->name }}</span>
+          </div>
+        </div>
+        <div class="order-meta">
+          <div><strong>Адрес:</strong> {{ $order->dostavka }}</div>
+          <div><strong>Телефон:</strong> {{ $order->phone }}</div>
+          <div><strong>Почта:</strong> {{ $order->email }}</div>
+          <div><strong>Дата:</strong> {{ $order->date }}</div>
+          <div><strong>Время:</strong> {{ $order->time }}</div>
+          <div><strong>Оплата:</strong> {{ $order->type_oplata }}</div>
+          <div><strong>Оформлен:</strong> {{ $order->created_at }}</div>
+        </div>
+        <div class="order-items">
+          @foreach ($order->basket->productsinbasket as $item)
+            <div>{{ $item->product->name }} — {{ $item->count }} шт.</div>
+          @endforeach
+        </div>
+        <div class="order-actions">
+          <form action="{{ route('setstatus', $order->id) }}" method="post">
+            @csrf
+            <select name="status">
+              @foreach ($statuses as $status)
+                <option value="{{ $status->id }}" @selected($status->id == $order->status_id)>{{ $status->name }}</option>
+              @endforeach
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+          </form>
+        </div>
+      </div>
+      @empty
+        <p class="section-sub">Заявок пока нет.</p>
+      @endforelse
+    </div>
+  </div>
 </body>
 </html>
