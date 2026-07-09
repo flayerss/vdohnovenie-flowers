@@ -28,7 +28,7 @@
             <div class="alert" style="display:inline-block;">Осталось {{ $product->count }} шт.</div><br>
           @endif
           @if ($product->count > 0)
-            <a href="{{ route('corsinad', $product->id) }}" class="btn btn-primary" style="margin-top:16px;">Добавить в корзину</a>
+            <a href="{{ route('corsinad', $product->id) }}" class="btn btn-primary js-add-cart" data-add-url="{{ route('corsinad', $product->id) }}" style="margin-top:16px;">Добавить в корзину</a>
           @endif
         </div>
       </div>
@@ -36,5 +36,6 @@
   </section>
 
   @include('partials.shop-footer')
+  <script src="/js/main.js"></script>
 </body>
 </html>

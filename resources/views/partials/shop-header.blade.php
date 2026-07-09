@@ -17,8 +17,14 @@
       @else
         <a class="btn btn-ghost btn-sm" href="{{ route('login') }}">Вход для администратора</a>
       @endauth
-      <a class="icon-btn" href="{{ route('corsina') }}" aria-label="Корзина">
+      @php
+        $cartCount = \App\Models\ProductsInBasket::whereHas('basket', function ($q) {
+            $q->where('session_id', session()->getId())->where('active', 1);
+        })->sum('count');
+      @endphp
+      <a class="icon-btn" href="{{ route('corsina') }}" aria-label="Корзина" id="cart-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+        <span class="cart-badge" id="cart-badge" style="{{ $cartCount > 0 ? '' : 'display:none;' }}">{{ (int) $cartCount }}</span>
       </a>
     </div>
   </div>

@@ -64,7 +64,7 @@
             <div class="prod-foot">
               <span class="prod-price">{{ $product->price }} ₽</span>
               @if ($product->count > 0)
-                <a href="{{ route('corsinad', $product->id) }}" class="add-btn" aria-label="Добавить в корзину">
+                <a href="{{ route('corsinad', $product->id) }}" class="add-btn js-add-cart" data-add-url="{{ route('corsinad', $product->id) }}" aria-label="Добавить в корзину">
                   <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
                 </a>
               @endif
@@ -77,6 +77,7 @@
   </section>
 
   @include('partials.shop-footer')
+  <script src="/js/main.js"></script>
 </body>
 
 </html>

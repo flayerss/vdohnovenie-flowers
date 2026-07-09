@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class BasketController extends Controller
 {
-    function addProduct($id)
+    function addProduct(Request $request, $id)
     {
         $product = Product::findOrFail($id);
         $basket = Basket::firstOrCreate(
@@ -20,7 +20,12 @@ class BasketController extends Controller
 
         if ($currentCount + 1 > $product->count)
         {
-            return back()->withErrors(['error' => 'Недостаточно товара "'.$product->name.'" на складе']);
+            $message = 'Недостаточно товара "'.$product->name.'" на складе';
+            if ($request->ajax() || $request->wantsJson())
+            {
+                return response()->json(['error' => $message], 422);
+            }
+            return back()->withErrors(['error' => $message]);
         }
 
         if (!$productinbasket)
@@ -35,6 +40,12 @@ class BasketController extends Controller
         {
             $productinbasket->count = $productinbasket->count + 1;
             $productinbasket->save();
+        }
+
+        if ($request->ajax() || $request->wantsJson())
+        {
+            $cartCount = ProductsInBasket::where('basket_id', $basket->id)->sum('count');
+            return response()->json(['cartCount' => (int) $cartCount]);
         }
         return redirect()->route('corsina');
     }

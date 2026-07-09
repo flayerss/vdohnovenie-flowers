@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const dostavkaInput = document.getElementById('dostavka');
     const moreInput = document.getElementById('more');
 
+    if (!totalPriceInput || !totalsumma || !dostavkaInput || !moreInput) {
+        return;
+    }
+
     function updateTotal() {
         let subtotal = 0;
         let deliveryCost = 1000;
@@ -81,6 +85,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     updateTotal();
+});
+
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.js-add-cart');
+    if (!btn) {
+        return;
+    }
+    e.preventDefault();
+    const url = btn.dataset.addUrl;
+    fetch(url, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    })
+    .then(response => response.json().then(data => ({ ok: response.ok, data })))
+    .then(({ ok, data }) => {
+        if (!ok) {
+            alert(data.error || 'Не удалось добавить товар в корзину');
+            return;
+        }
+        const badge = document.getElementById('cart-badge');
+        if (badge) {
+            badge.textContent = data.cartCount;
+            badge.style.display = data.cartCount > 0 ? '' : 'none';
+        }
+    })
+    .catch(() => alert('Не удалось добавить товар в корзину'));
 });
        function updateDateTimeSlots() {
             const dateInput = document.getElementById('date');
