@@ -6,6 +6,7 @@ use App\Mail\OrderPlacedMail;
 use App\Models\Basket;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -34,30 +35,33 @@ class OrderController extends Controller
             }
         }
 
-        // Списание остатков
-        foreach ($basket->productsinbasket as $item) {
-            $item->product->decrement('count', $item->count);
-        }
+        // Списание остатков, создание заказа и деактивация корзины — одной транзакцией,
+        // чтобы сбой на любом шаге (например, ошибка БД при создании заказа) не оставлял
+        // склад списанным без реально оформленного заказа.
+        $order = DB::transaction(function () use ($basket, $validator) {
+            foreach ($basket->productsinbasket as $item) {
+                $item->product->decrement('count', $item->count);
+            }
 
-        // Создание заказа
-        $order = Order::create([
-            'basket_id' => $basket->id,
-            'name' => $validator['name'],
-            'phone' => $validator['phone'],
-            'email' => $validator['email'],
-            'date' => $validator['date'],
-            'time' => $validator['time'],
-            'dostavka' => $validator['address'],
-            'type_oplata' => $validator['type'],
-            'status_id' => 1,
-        ]);
+            $order = Order::create([
+                'basket_id' => $basket->id,
+                'name' => $validator['name'],
+                'phone' => $validator['phone'],
+                'email' => $validator['email'],
+                'date' => $validator['date'],
+                'time' => $validator['time'],
+                'dostavka' => $validator['address'],
+                'type_oplata' => $validator['type'],
+                'status_id' => 1,
+            ]);
 
-        // Деактивация корзины
-        $basket->active = 0;
-        $basket->save();
+            $basket->active = 0;
+            $basket->save();
 
-        // Создание новой активной корзины
-        Basket::create(['session_id' => session()->getId(), 'active' => 1]);
+            Basket::create(['session_id' => session()->getId(), 'active' => 1]);
+
+            return $order;
+        });
 
         // Отправка письма (через очередь)
         Mail::to($validator['email'])->queue(new OrderPlacedMail($order));
